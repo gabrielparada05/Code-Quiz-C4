@@ -42,13 +42,13 @@ var showQuestion = () => {
 
 
 var checkAnswer = () => {
-  var selectedOption = document.querySelector('input[name="answer"]:checked').value;
+  var selectedOption = document.querySelector('input[name="answer"]:checked').value; 
   var correctAnswer = questions[currentQuestion].answer;
   if (selectedOption === correctAnswer) {
     alert("Correct!");
   } else {
     alert("Incorrect!");
-    timer -= currentQuestion; 
+    secondsLeft -= currentQuestion; 
   }
   currentQuestion++;
   if (currentQuestion < questions.length) {
@@ -58,27 +58,38 @@ var checkAnswer = () => {
   }
 };
  
-var timer = 100;
 
-var startTimer = () => {
-  timerInterval = setInterval(() => {
-    timer--;
-    document.querySelector(".timer").textContent = "Timer: " + timer + " seconds";
+var timeEl = document.querySelector(".timer");
 
-    if(timer === 0) {
+var secondsLeft = 5;
+
+function setTime() {
+  // Sets interval in variable
+  var timerInterval = setInterval(function() {
+    secondsLeft--;
+    timeEl.textContent = secondsLeft + " seconds left.";
+
+    if(secondsLeft === 0) {
       // Stops execution of action at set interval
       clearInterval(timerInterval);
       // Calls function to create and append image
-      sendMessage("Time´s up");
+      sendMessage();
     }
-    
+
   }, 1000);
 }
 
+function sendMessage() {
+  this.alert("Game Over ");
+}
+/// i have to reset de game
+
+
 document.querySelector(".start").addEventListener("click", () => {
-  startTimer();
+  setTime();
   showQuestion();
   showQuiz();
+  document.querySelector(".start").style.display = "none";
 });
 
 //*

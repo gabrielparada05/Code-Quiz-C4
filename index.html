@@ -7,15 +7,16 @@
     <link rel="stylesheet" href="./style/style.css">
     <title>Code Quiz</title>
 </head>
+<header>   
+    <h1>Code Quiz</h1>
 
+</header>
 <body>
-    <div>
-        <h1>Code Quiz</h1>
+    <div class="div_start">
+      
         
         <button type=button class="start"> Start </button>
     </div>
-
-    
 
     <div class="quiz">
 
@@ -23,22 +24,20 @@
         <h2 class="question">Question</h2>
 
         <div id="answer-options">
-            
+          
         </div>
 
-        <button class="submit">Submit</button>
 
-        <hr>
+        
+        <progress id="progress" value="0" max="0"></progress>  <! -- set the bar progress .. add label--> 
 
-        <progress id="progress" value="0" max="0"></progress>
 
-        <div class="timer"> Timer </div>
 
         <button class="score">View Score</button>
 
     </div>
 
-    
+    <div class="timer">  </div>
 
     
 
@@ -46,7 +45,7 @@
 </body>
 
 <footer>
-    <p>Code Quiz</p>
+    <p>Web Developer</p>
 </footer>
 
 </html>
