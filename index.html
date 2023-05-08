@@ -29,11 +29,7 @@
 
 
         
-        <progress id="progress" value="0" max="0"></progress>  <! -- set the bar progress .. add label--> 
-
-
-
-        <button class="score">View Score</button>
+        
 
     </div>
 
@@ -41,10 +37,15 @@
 
     
 
+    <button class="score onclick="getWins();">View Score</button>
+    <div id="scores">     </div>
+
     <script src="./script/script.js"></script>
 </body>
 
 <footer>
+    <label for="file">Progress:</label>
+    <progress id="progress" value="0" max="100">  </progress>
     <p>Web Developer</p>
 </footer>
 

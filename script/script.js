@@ -1,3 +1,7 @@
+var progressBar = document.getElementById("progress");
+
+//set questions and options
+var score = 0
 var questions = [
   {
     question: "What does HTML stand for?",
@@ -13,9 +17,21 @@ var questions = [
     question: "Which tag is used to display text in title bar of a web document?",
     options : ["Comment tag", "Meta tag","Heading tag","Title tag"],
     answer: "Title tag",
-  }
+  },
+
+  {
+    question: "Which of the following is not a browser?",
+    options : ["Safari","Macbook","Chrome","Edge"],
+    answer: "Macbook",
+  },
+  {
+    question: "Choose the correct HTML element for the largest heading:",
+    options : ["header tag","h1 tag","h2 tag","large_h tag"],
+    answer: "h1 tag",
+  },
 ];
 
+// show question 
 function showQuiz(){
   document.querySelector(".quiz").style.display = "block";
 }
@@ -38,14 +54,19 @@ var showQuestion = () => {
     <button onclick="checkAnswer()">Submit</button>
   `;
   document.querySelector(".quiz").innerHTML = quizHTML;
+  document.querySelector(".start").style.display="none";
 };
 
 
+
+
+// check answer
 var checkAnswer = () => {
   var selectedOption = document.querySelector('input[name="answer"]:checked').value; 
   var correctAnswer = questions[currentQuestion].answer;
   if (selectedOption === correctAnswer) {
     alert("Correct!");
+    score = score + 1
   } else {
     alert("Incorrect!");
     secondsLeft -= currentQuestion; 
@@ -55,13 +76,27 @@ var checkAnswer = () => {
     showQuestion();
   } else {
     alert("Quiz completed!");
+    endQuiz()
   }
+  var progressBar = document.querySelector("#progress"); 
+  var progressPerc = (currentQuestion/totalQuestion)*100;
+  progressBar.style.width = `${progressPercent}%`;
+  progressBar.textContent = `Question ${currentQuestion} of ${totalQuestions}`;
 };
  
 
+function setPoints() {
+  score.textContent = winCounter;
+  localStorage.setItem("winCount", winCounter);
+}
+
+
+
+
+// set timer
 var timeEl = document.querySelector(".timer");
 
-var secondsLeft = 5;
+var secondsLeft = 100;
 
 function setTime() {
   // Sets interval in variable
@@ -74,6 +109,7 @@ function setTime() {
       clearInterval(timerInterval);
       // Calls function to create and append image
       sendMessage();
+      endQuiz()
     }
 
   }, 1000);
@@ -85,81 +121,29 @@ function sendMessage() {
 /// i have to reset de game
 
 
+
+///trigger quiz 
 document.querySelector(".start").addEventListener("click", () => {
   setTime();
   showQuestion();
   showQuiz();
+  checkAnswer();
   document.querySelector(".start").style.display = "none";
+  document.querySelector(".score").style.display = "block";
+  document.querySelector("#progress").style.display = "block";
 });
 
-//*
-/// getting elements
- 
-
-  /// create a random choice
+function endQuiz() {
+  var finalScore = document.querySelector("#scores")
+  var initials = prompt("Please enter your initials");
+  document.querySelector(".quiz").style.display="none";
+    document.querySelector(".timer").style.display="none";
+    document.querySelector(".start").style.display="none";
   
+  if (initials != null) {
+    document.getElementById("demo").innerHTML =
+    finalScore.textContent = "You scored " + score + "! Great Job! " + initials;
+    
+  }
 
-
-
-
-//2. To indicate the correct match  - Define var for questions/answer and 
-// use if stat for checked correct answer. Create a new variable with the correct answer.
-
-
-
-/*
-
-
-
-////**********************************
-///3 set timer 
-
-                // Selects element by class
-var timeEl = document.querySelector(".time");
-
-            // Selects element by id
-var mainEl = document.getElementById("main");
-
-var secondsLeft = 10;
-
-function setTime() {
-  // Sets interval in variable
-  var timerInterval = setInterval(function() {
-    timer--;
-    timeEl.textContent = timer + " seconds left till colorsplosion";
-
-    if(timer === 0) {
-      // Stops execution of action at set interval
-      clearInterval(timerInterval);
-      // Calls function to create and append image
-      sendMessage();
-    }
-
-  }, 1000);
 }
-
-
-
-
-
-
-//*************************** */
-
-/// 4. use button to start quiz, which triggers the questions and timer. 
-
-
-
-
-
-
-/// 5. Questions should be display one by one. 
-
-
-/// set a way to choice answer: click over the answer. 
-
-
-
-// set a message to get "wrong" or "correct" answer.
-
-
-// If the answer is wrong assign 0 pts. If is correct assign 1 pt. Storage that info.}

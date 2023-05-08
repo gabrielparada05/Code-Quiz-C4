@@ -65,6 +65,9 @@ button:hover {
     padding: 2rem;
   }
   
+  #progress, .score {
+    display:none;
+  }
   
   footer {
     background-color: #1e76bb;
