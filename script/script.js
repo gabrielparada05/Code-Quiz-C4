@@ -1,25 +1,89 @@
-//1. Set question and answers. 
+var questions = [
+  {
+    question: "What does HTML stand for?",
+    options : ["Hyper Tag Market Language", "Hyper Text Mark Link","Hyper Text Markup Language","Hyperlinking Text Manual Language"],
+    answer: "Hyper Text Markup Language",
+  },
+  {
+    question: "Which program is used by web clients to view the web pages?",
+    options : ["Web browser", "Protocol","Web server","Search Engine"],
+    answer: "Web browser",
+  },
+  {
+    question: "Which tag is used to display text in title bar of a web document?",
+    options : ["Comment tag", "Meta tag","Heading tag","Title tag"],
+    answer: "Title tag",
+  }
+];
 
-var myQuestions = [
-    {
-      question: "What is 10/2?",
-      answers: {
-        a: '3',
-        b: '5',
-        c: '115'
-      },
-      correctAnswer: 'b'
-    },
-    {
-      question: "What is 30/3?",
-      answers: {
-        a: '3',
-        b: '5',
-        c: '10'
-      },
-      correctAnswer: 'c'
+function showQuiz(){
+  document.querySelector(".quiz").style.display = "block";
+}
+
+var currentQuestion = 0;
+
+var timerInterval;
+
+var showQuestion = () => {
+  var q = questions[currentQuestion];
+  var questionText = q.question;
+  var options = q.options;
+  var optionsHTML = "";
+  for (var i = 0; i < options.length; i++) {
+    optionsHTML += `<input type="radio" name="answer" value="${options[i]}">${options[i]}<br>`;
+  }
+  var quizHTML = `
+    <div class="question">${questionText}</div>
+    <div class="options">${optionsHTML}</div>
+    <button onclick="checkAnswer()">Submit</button>
+  `;
+  document.querySelector(".quiz").innerHTML = quizHTML;
+};
+
+
+var checkAnswer = () => {
+  var selectedOption = document.querySelector('input[name="answer"]:checked').value;
+  var correctAnswer = questions[currentQuestion].answer;
+  if (selectedOption === correctAnswer) {
+    alert("Correct!");
+  } else {
+    alert("Incorrect!");
+    timer -= currentQuestion; 
+  }
+  currentQuestion++;
+  if (currentQuestion < questions.length) {
+    showQuestion();
+  } else {
+    alert("Quiz completed!");
+  }
+};
+ 
+var timer = 100;
+
+var startTimer = () => {
+  timerInterval = setInterval(() => {
+    timer--;
+    document.querySelector(".timer").textContent = "Timer: " + timer + " seconds";
+
+    if(timer === 0) {
+      // Stops execution of action at set interval
+      clearInterval(timerInterval);
+      // Calls function to create and append image
+      sendMessage("Time´s up");
     }
-  ];
+    
+  }, 1000);
+}
+
+document.querySelector(".start").addEventListener("click", () => {
+  startTimer();
+  showQuestion();
+  showQuiz();
+});
+
+//*
+/// getting elements
+ 
 
   /// create a random choice
   
@@ -32,8 +96,7 @@ var myQuestions = [
 
 
 
-
-
+/*
 
 
 
@@ -51,10 +114,10 @@ var secondsLeft = 10;
 function setTime() {
   // Sets interval in variable
   var timerInterval = setInterval(function() {
-    secondsLeft--;
-    timeEl.textContent = secondsLeft + " seconds left till colorsplosion.";
+    timer--;
+    timeEl.textContent = timer + " seconds left till colorsplosion";
 
-    if(secondsLeft === 0) {
+    if(timer === 0) {
       // Stops execution of action at set interval
       clearInterval(timerInterval);
       // Calls function to create and append image
@@ -74,26 +137,8 @@ function setTime() {
 /// 4. use button to start quiz, which triggers the questions and timer. 
 
 
-            // Access toggle switch HTML element
-var themeSwitcher = document.querySelector("#theme-switcher");
-var container = document.querySelector(".container");
 
-// Set default mode to dark
-var mode = "dark";
 
-// Listen for a click event on toggle switch
-themeSwitcher.addEventListener("click", function() {
-  // If mode is dark, apply light background
-  if (mode === "dark") {
-    mode = "light";
-    container.setAttribute("class", "light");
-  }
-  // If mode is light, apply dark background 
-  else {
-    mode = "dark";
-    container.setAttribute("class", "dark");
-  }
-)
 
 
 /// 5. Questions should be display one by one. 
@@ -106,10 +151,4 @@ themeSwitcher.addEventListener("click", function() {
 // set a message to get "wrong" or "correct" answer.
 
 
-// If the answer is wrong assign 0 pts. If is correct assign 1 pt. Storage that info. 
-
-
-// If the answer is wrong subtract the time and go to the next question. If is correct go to the next one. Storage that info.  
-
-
-/// when the time is gone or all question are answered, request the initials of the taker test and save the score. 
+// If the answer is wrong assign 0 pts. If is correct assign 1 pt. Storage that info.}
