@@ -203,3 +203,29 @@ footer {
     opacity: 1.0;
   }
 }
+
+/** Media query */
+
+
+@media screen and (max-width: 690px) {
+ button {
+    width: 30%;
+    font-size: 100%;
+    border-radius: 9px;
+  };
+
+  footer {
+    height: 100px;
+  };
+
+  .progress {
+    background: #13b43e;
+    box-shadow: 2px 14px 15px -7px rgba(30, 166, 250, 0.36);
+    border-radius: 50px;
+    transition: all 0.5s;
+  }
+
+  .question {
+    margin-left: 10px;
+  }
+}

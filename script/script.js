@@ -38,8 +38,7 @@ function showQuiz(){
 
 var currentQuestion = 0;
 
-
-var showQuestion = () => {
+function showQuestion () {
   var q = questions[currentQuestion];
   var questionText = q.question;
   var options = q.options;
@@ -61,10 +60,11 @@ var showQuestion = () => {
 
 // check answer
 
-var checkAnswer = () => {
-  var selectedOption = document.querySelector('input[name="answer"]:checked').value; 
+
+function checkAnswer () {
+  var selectedOption = document.querySelector('input[name="answer"]:checked'); 
   var correctAnswer = questions[currentQuestion].answer;
-  if (selectedOption === correctAnswer) {
+  if (selectedOption.value === correctAnswer) {
     alert("Correct!");
     score = score + 1
   } else {
@@ -83,20 +83,17 @@ var checkAnswer = () => {
   var progressBar = document.querySelector(".progress"); 
   var progressPerc = (currentQuestion/questions.length)*100;
   progressBar.style.width = `${progressPerc}%`;
-  progressBar.textContent = `Question ${currentQuestion} of ${questions.length}`;
+  progressBar.textContent = ` ${currentQuestion} of ${questions.length}`;
   progressBar.value = progressPerc;
 };
  
-/// set points and save in the local storage
 
 
 
-
-
-// set timer I NEED TO STOP IT WHEN I FINISH THE QUIZ
+// set timer 
 var timeEl = document.querySelector(".timer");
 
-var secondsLeft = 60;
+var secondsLeft = 120;
 
 ///var timerInterval = setInterval(function() {
   
@@ -119,24 +116,34 @@ function setTime() {
 
 
 function sendMessage() {
-  this.alert("Game Over ");
+  this.alert("Game Over");
 }
 /// i have to reset de game *************
 
-
+var checkboxes = document.querySelectorAll('input[type="radio"]');
 
 ///trigger quiz 
 document.querySelector(".start").addEventListener("click", () => {
   timer = setInterval(setTime, 1000);
-  showQuestion();
   showQuiz();
+  showQuestion();
   checkAnswer();
-  endQuiz()
+  endQuiz();
   document.querySelector(".start").style.display = "none";
   document.querySelector(".score").style.display = "block";
   document.querySelector(".progress").style.display = "block";
 });
 
+/* Get the submit button element
+const submitBtn = document.querySelector("#submit-btn");
+
+// Add an event listener to the submit button
+submitBtn.addEventListener("click", () => {
+  if (checkAnswer === "checked")
+  showQuestion();
+});*/
+
+ 
 // set the end 
 function endQuiz() {
   var initials = prompt("Please enter your initials");
@@ -158,7 +165,8 @@ function renderPoints (initials){
     } else {
     finalScore.textContent = initials + ", your score is " + score + "/5" + ". Try Again.";
   }
-  // Save the results
+  // /// set points in the local storage
+
 document.querySelector(".save-btn").addEventListener("click", function(){
   localStorage.setItem("pointsCount", score + initials);
 })
