@@ -1,5 +1,5 @@
 var progressBar = document.getElementById("progress");
-
+var timer;
 //set questions and options
 var score = 0
 var questions = [
@@ -38,7 +38,7 @@ function showQuiz(){
 
 var currentQuestion = 0;
 
-var timerInterval;
+
 
 var showQuestion = () => {
   var q = questions[currentQuestion];
@@ -76,15 +76,18 @@ var checkAnswer = () => {
     showQuestion();
   } else {
     alert("Quiz completed!");
-    endQuiz()
-  }
+    endQuiz();
+    clearInterval(timer);
+  } 
+  // set the progress bar
   var progressBar = document.querySelector("#progress"); 
-  var progressPerc = (currentQuestion/totalQuestion)*100;
-  progressBar.style.width = `${progressPercent}%`;
-  progressBar.textContent = `Question ${currentQuestion} of ${totalQuestions}`;
+  var progressPerc = (currentQuestion/questions.length)*100;
+  progressBar.style.width = `${progressPerc}%`;
+  progressBar.textContent = `Question ${currentQuestion} of ${questions.length}`;
+  progressBar.value = progressPerc;
 };
  
-
+/// set points and save in the local storage
 function setPoints() {
   score.textContent = winCounter;
   localStorage.setItem("winCount", winCounter);
@@ -93,57 +96,76 @@ function setPoints() {
 
 
 
-// set timer
+// set timer I NEED TO STOP IT WHEN I FINISH THE QUIZ
 var timeEl = document.querySelector(".timer");
 
-var secondsLeft = 100;
+var secondsLeft = 30;
+
+///var timerInterval = setInterval(function() {
+  
+/// }, 1000);
+
 
 function setTime() {
-  // Sets interval in variable
-  var timerInterval = setInterval(function() {
-    secondsLeft--;
-    timeEl.textContent = secondsLeft + " seconds left.";
+  timer;
+  secondsLeft--;
+  timeEl.textContent = secondsLeft + " seconds left.";
 
-    if(secondsLeft === 0) {
-      // Stops execution of action at set interval
-      clearInterval(timerInterval);
-      // Calls function to create and append image
-      sendMessage();
-      endQuiz()
-    }
-
-  }, 1000);
+  if(secondsLeft === 0) {
+    // Stops execution of action at set interval
+    clearInterval(timer);
+    // Calls function to create 
+    sendMessage();
+    endQuiz()    
+  }
 }
+
 
 function sendMessage() {
   this.alert("Game Over ");
 }
-/// i have to reset de game
+/// i have to reset de game *************
 
 
 
 ///trigger quiz 
 document.querySelector(".start").addEventListener("click", () => {
-  setTime();
+  timer = setInterval(setTime, 1000);
   showQuestion();
   showQuiz();
   checkAnswer();
+  endQuiz()
+  ///renderPoints ()
+  
   document.querySelector(".start").style.display = "none";
   document.querySelector(".score").style.display = "block";
   document.querySelector("#progress").style.display = "block";
 });
 
+
 function endQuiz() {
-  var finalScore = document.querySelector("#scores")
   var initials = prompt("Please enter your initials");
   document.querySelector(".quiz").style.display="none";
-    document.querySelector(".timer").style.display="none";
-    document.querySelector(".start").style.display="none";
+  document.querySelector(".timer").style.display="none";
+  document.querySelector(".start").style.display="none";
+  renderPoints (initials);
+};
+
+function renderPoints (initials){
+  var finalScore = document.querySelector("#scores");
   
-  if (initials != null) {
-    document.getElementById("demo").innerHTML =
-    finalScore.textContent = "You scored " + score + "! Great Job! " + initials;
-    
+    if (score > 2) {
+    finalScore.textContent = "You scored " + score + " Great Job  " + initials;
+    } else {
+
+    finalScore.textContent = "You scored " + score + " Try Again " + initials;
   }
 
 }
+
+document.querySelector(".end-btn").addEventListener("click", function(){
+  window.location.reload()
+})
+
+//RESET DE GAME
+
