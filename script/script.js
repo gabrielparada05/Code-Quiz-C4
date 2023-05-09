@@ -1,4 +1,4 @@
-var progressBar = document.getElementById("progress");
+var progressBar = document.getElementsByClassName("progress");
 var timer;
 //set questions and options
 var score = 0
@@ -31,13 +31,12 @@ var questions = [
   },
 ];
 
-// show question 
+// show questions 
 function showQuiz(){
   document.querySelector(".quiz").style.display = "block";
 }
 
 var currentQuestion = 0;
-
 
 
 var showQuestion = () => {
@@ -51,7 +50,7 @@ var showQuestion = () => {
   var quizHTML = `
     <div class="question">${questionText}</div>
     <div class="options">${optionsHTML}</div>
-    <button onclick="checkAnswer()">Submit</button>
+    <div class="submit-btn"> <button onclick="checkAnswer()">Submit</button> </div>
   `;
   document.querySelector(".quiz").innerHTML = quizHTML;
   document.querySelector(".start").style.display="none";
@@ -61,6 +60,7 @@ var showQuestion = () => {
 
 
 // check answer
+
 var checkAnswer = () => {
   var selectedOption = document.querySelector('input[name="answer"]:checked').value; 
   var correctAnswer = questions[currentQuestion].answer;
@@ -80,7 +80,7 @@ var checkAnswer = () => {
     clearInterval(timer);
   } 
   // set the progress bar
-  var progressBar = document.querySelector("#progress"); 
+  var progressBar = document.querySelector(".progress"); 
   var progressPerc = (currentQuestion/questions.length)*100;
   progressBar.style.width = `${progressPerc}%`;
   progressBar.textContent = `Question ${currentQuestion} of ${questions.length}`;
@@ -88,10 +88,7 @@ var checkAnswer = () => {
 };
  
 /// set points and save in the local storage
-function setPoints() {
-  score.textContent = winCounter;
-  localStorage.setItem("winCount", winCounter);
-}
+
 
 
 
@@ -99,7 +96,7 @@ function setPoints() {
 // set timer I NEED TO STOP IT WHEN I FINISH THE QUIZ
 var timeEl = document.querySelector(".timer");
 
-var secondsLeft = 30;
+var secondsLeft = 60;
 
 ///var timerInterval = setInterval(function() {
   
@@ -109,7 +106,7 @@ var secondsLeft = 30;
 function setTime() {
   timer;
   secondsLeft--;
-  timeEl.textContent = secondsLeft + " seconds left.";
+  timeEl.textContent = secondsLeft + " seconds left!";
 
   if(secondsLeft === 0) {
     // Stops execution of action at set interval
@@ -135,37 +132,43 @@ document.querySelector(".start").addEventListener("click", () => {
   showQuiz();
   checkAnswer();
   endQuiz()
-  ///renderPoints ()
-  
   document.querySelector(".start").style.display = "none";
   document.querySelector(".score").style.display = "block";
-  document.querySelector("#progress").style.display = "block";
+  document.querySelector(".progress").style.display = "block";
 });
 
-
+// set the end 
 function endQuiz() {
   var initials = prompt("Please enter your initials");
+  renderPoints (initials);
   document.querySelector(".quiz").style.display="none";
   document.querySelector(".timer").style.display="none";
-  document.querySelector(".start").style.display="none";
-  renderPoints (initials);
+  document.querySelector(".start").style.display="none"
+  document.querySelector(".end-btn").style.display="block";
+  document.querySelector(".save-btn").style.display="block";
+ 
 };
+
+/// Render points
 
 function renderPoints (initials){
   var finalScore = document.querySelector("#scores");
-  
     if (score > 2) {
-    finalScore.textContent = "You scored " + score + " Great Job  " + initials;
+    finalScore.textContent = initials + ", your score is " + score + "/5" + ". Great Job.";
     } else {
-
-    finalScore.textContent = "You scored " + score + " Try Again " + initials;
+    finalScore.textContent = initials + ", your score is " + score + "/5" + ". Try Again.";
   }
-
+  // Save the results
+document.querySelector(".save-btn").addEventListener("click", function(){
+  localStorage.setItem("pointsCount", score + initials);
+})
 }
 
+
+//RESET DE GAME
 document.querySelector(".end-btn").addEventListener("click", function(){
   window.location.reload()
 })
 
-//RESET DE GAME
+
 
