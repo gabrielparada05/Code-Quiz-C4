@@ -1,6 +1,6 @@
 # Code-Quiz-C4-
 # Description
-This is a simple quiz application built with HTML, CSS, and JavaScript. The app allows users to take a quiz and get a score based on their answers. The quiz consists of multiple-choice questions and the user has a limited amount of time to complete the quiz. At the end of the quiz, users are able to save their scores and initials in the local storage.
+This is a simple quiz application built with HTML, CSS, and JavaScript. The app allows users to take a quiz and get a score based on their answers. The quiz consists of multiple-choice questions and the user has a limited amount of time to complete the quiz. When the page is loaded, it renders the score which is saved in the local storage (if there is one). At the end of the quiz, users are able to save their scores and initials in the local storage.
 
 # Features
 Multiple-choice questions
@@ -14,7 +14,7 @@ To get started with the quiz app, simply download or clone the repository to you
 # Usage
 To use the quiz app, simply click the "Start Quiz" button to begin. You will have a limited amount of time to answer all of the questions. Once you have completed the quiz, your score will be displayed along with the correct answers to each question.
 
-Several screenshots available : 
+Several screenshots available: 
 ![alt text](/assets/Code%20Quiz1.png)
 ![alt text](/assets/Code%20Quiz2.png)
 ![alt text](/assets/Code%20Quiz3.png)

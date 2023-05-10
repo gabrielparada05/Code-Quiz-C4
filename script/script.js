@@ -1,5 +1,12 @@
+/// Get score saved in the local storage
+
+var finalPoints = document.getElementById("see-score");
+finalPoints.innerHTML = localStorage.getItem("pointsCount");
+
 var progressBar = document.getElementsByClassName("progress");
 var timer;
+
+
 //set questions and options
 var score = 0
 var questions = [
@@ -25,17 +32,33 @@ var questions = [
     answer: "Macbook",
   },
   {
-    question: "Choose the correct HTML element for the largest heading:",
+    question: "Choose the correct HTML element for the most important heading of the page:",
     options : ["header tag","h1 tag","h2 tag","large_h tag"],
     answer: "h1 tag",
   },
 ];
 
-// show questions 
+// show quiz
 function showQuiz(){
   document.querySelector(".quiz").style.display = "block";
 }
+// set progress bar
+function progressShow()  {
+  var progressBar = document.querySelector(".progress"); 
+  var valueBar ;
+  if (currentQuestion === 0) {
+    valueBar = 1
+  } else { 
+    valueBar = currentQuestion + 1
+  };
+  var progressPerc = (valueBar/questions.length)*100;
+  progressBar.style.width = `${progressPerc}%`;
+  progressBar.textContent = ` ${valueBar} of ${questions.length}`;
+  progressBar.value = progressPerc;
+  }
+  
 
+  // show questions and options
 var currentQuestion = 0;
 
 function showQuestion () {
@@ -44,62 +67,54 @@ function showQuestion () {
   var options = q.options;
   var optionsHTML = "";
   for (var i = 0; i < options.length; i++) {
-    optionsHTML += `<input type="radio" name="answer" value="${options[i]}">${options[i]}<br>`;
+    optionsHTML += `<input id="label${[i]}" type="radio" name="answer" value="${options[i]}"> 
+    <label for="label${[i]}">${options[i]}</label> <br> `;
   }
   var quizHTML = `
-    <div class="question">${questionText}</div>
+    <h2 class="question">${questionText}</h2>
     <div class="options">${optionsHTML}</div>
     <div class="submit-btn"> <button onclick="checkAnswer()">Submit</button> </div>
   `;
   document.querySelector(".quiz").innerHTML = quizHTML;
   document.querySelector(".start").style.display="none";
+  progressShow();
 };
 
 
 
-
-// check answer
-
-
+// check answers
 function checkAnswer () {
   var selectedOption = document.querySelector('input[name="answer"]:checked'); 
   var correctAnswer = questions[currentQuestion].answer;
-  if (selectedOption.value === correctAnswer) {
-    alert("Correct!");
-    score = score + 1
+  if (selectedOption) {
+    if (selectedOption.value === correctAnswer) {
+      alert("Correct!");
+      score = score + 1
+    } else {
+      alert("Incorrect!");
+      secondsLeft -= currentQuestion; 
+    }
+    currentQuestion++;
+    if (currentQuestion < questions.length) {
+      showQuestion();
+    } else {
+      alert("Quiz completed!");
+      endQuiz();
+      clearInterval(timer);
+    } 
   } else {
-    alert("Incorrect!");
-    secondsLeft -= currentQuestion; 
+    alert("Please, select an option");
   }
-  currentQuestion++;
-  if (currentQuestion < questions.length) {
-    showQuestion();
-  } else {
-    alert("Quiz completed!");
-    endQuiz();
-    clearInterval(timer);
-  } 
-  // set the progress bar
-  var progressBar = document.querySelector(".progress"); 
-  var progressPerc = (currentQuestion/questions.length)*100;
-  progressBar.style.width = `${progressPerc}%`;
-  progressBar.textContent = ` ${currentQuestion} of ${questions.length}`;
-  progressBar.value = progressPerc;
+  
 };
- 
+
 
 
 
 // set timer 
 var timeEl = document.querySelector(".timer");
-
+/// set seconds for the timer
 var secondsLeft = 120;
-
-///var timerInterval = setInterval(function() {
-  
-/// }, 1000);
-
-
 function setTime() {
   timer;
   secondsLeft--;
@@ -118,30 +133,21 @@ function setTime() {
 function sendMessage() {
   this.alert("Game Over");
 }
-/// i have to reset de game *************
-
-var checkboxes = document.querySelectorAll('input[type="radio"]');
 
 ///trigger quiz 
 document.querySelector(".start").addEventListener("click", () => {
   timer = setInterval(setTime, 1000);
   showQuiz();
   showQuestion();
-  checkAnswer();
-  endQuiz();
+  //checkAnswer();
+  //endQuiz();
   document.querySelector(".start").style.display = "none";
-  document.querySelector(".score").style.display = "block";
+  //document.querySelector(".score").style.display = "block";
   document.querySelector(".progress").style.display = "block";
+  finalPoints.style.display = "none";
 });
 
-/* Get the submit button element
-const submitBtn = document.querySelector("#submit-btn");
 
-// Add an event listener to the submit button
-submitBtn.addEventListener("click", () => {
-  if (checkAnswer === "checked")
-  showQuestion();
-});*/
 
  
 // set the end 
@@ -165,13 +171,14 @@ function renderPoints (initials){
     } else {
     finalScore.textContent = initials + ", your score is " + score + "/5" + ". Try Again.";
   }
-  // /// set points in the local storage
-
-document.querySelector(".save-btn").addEventListener("click", function(){
-  localStorage.setItem("pointsCount", score + initials);
+  // /// set points in the local storage and reset the game after the alert
+  document.querySelector(".save-btn").addEventListener("click", function(){
+    var lastScore = initials + " your last score was " + score; 
+    localStorage.setItem("pointsCount", lastScore)
+    alert("Score saved");
+    window.location.reload()
 })
 }
-
 
 //RESET DE GAME
 document.querySelector(".end-btn").addEventListener("click", function(){
