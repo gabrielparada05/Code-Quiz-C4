@@ -12,7 +12,7 @@ Progress bar
 To get started with the quiz app, simply download or clone the repository to your local machine  Once you have the files, open the  index.html file in your web browser to start the quiz. Otherwise, you can go to the website https://gabrielparada05.github.io/Code-Quiz-C4/.
 
 # Usage
-To use the quiz app, simply click the "Start Quiz" button to begin. You will have a limited amount of time to answer all of the questions. Once you have completed the quiz, your score will be displayed along with the correct answers to each question.
+To use the quiz app, simply click the "Start Quiz" button to begin. To select the answer, users can hit either the label or the circle. You will have a limited amount of time to answer all of the questions. Once you have completed the quiz, your score will be displayed along with the correct answers to each question.
 
 Several screenshots available: 
 ![alt text](/assets/Code%20Quiz1.png)

@@ -103,7 +103,7 @@ function checkAnswer () {
       clearInterval(timer);
     } 
   } else {
-    alert("Please, select an option");
+    alert("Please select an option");
   }
   
 };
