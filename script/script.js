@@ -92,7 +92,7 @@ function checkAnswer () {
       score = score + 1
     } else {
       alert("Incorrect!");
-      secondsLeft -= currentQuestion; 
+     secondsLeft -= 10; 
     }
     currentQuestion++;
     if (currentQuestion < questions.length) {
@@ -172,11 +172,13 @@ function renderPoints (initials){
     finalScore.textContent = initials + ", your score is " + score + "/5" + ". Try Again.";
   }
   // /// set points in the local storage and reset the game after the alert
-  document.querySelector(".save-btn").addEventListener("click", function(){
-    var lastScore = initials + " your last score was " + score; 
-    localStorage.setItem("pointsCount", lastScore)
-    alert("Score saved");
-    window.location.reload()
+document.querySelector(".save-btn").addEventListener("click", function(){
+  var lastScore = initials + " your last score was " + score; 
+  var scores = JSON.parse(localStorage.getItem("pointsCount")) || [];
+  scores.push(lastScore);
+  localStorage.setItem("pointsCount", JSON.stringify(scores));
+  alert("Score saved");
+  window.location.reload();
 })
 }
 
